@@ -3,11 +3,13 @@
 Prerequisites
 	Node.js and Git
 	
-1. Clone repo
-	git clone URL
+1. Clone repo - 
+	git clone https://github.com/CharanShanmugam/Project.git
+	
+2. Navigate to Repository folder
 
-2. Install npm dependencies
+3. Install npm dependencies -
 	npm install
 	
-3. Run development server with HMR and enjoy best possible dev feedback-loop
+4. Run development server -
 	npm start
