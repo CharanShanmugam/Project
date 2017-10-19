@@ -11,7 +11,7 @@ export default class CurrencyConverter extends React.Component
                 </div>
                 <Main />
                 <div>
-                  <a href="https://www.doorstepforex.com/" className="slds-float--right">Disclaimer</a>
+                  <a target="_blank" href="https://www.doorstepforex.com/" className="slds-float--right">Disclaimer</a>
                 </div>
             </div>);
   }
