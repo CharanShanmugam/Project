@@ -1,6 +1,20 @@
 import React from 'react';
+import CurrencyInput from 'react-nebo15-currency-input';
+import * as CurrencyRatesService from '../service.js';
 
 export default class Main extends React.Component{
+  
+  // Name should be change saranya
+  componentWillMount() {
+    this.fetchLatestRates();
+  }
+  // Name should be change saranya
+  async fetchLatestRates() {
+    const data = await CurrencyRatesService.getLatest();
+    const currencies = [];
+    currencies.push(data.base,...Object.entries(data.rates).filter(rates => rates[0]=='CAD' || rates[0]=='USD' ).map(rates =>rates[0]))
+    this.setState( { currencies,responseData : data.rates } );
+  }
   constructor(props) {
     super(props);
       this.state = {
@@ -17,22 +31,17 @@ export default class Main extends React.Component{
       this.outputCurrencyMethod = this.outputCurrencyMethod.bind(this);
       this.handleInputChange = this.handleInputChange.bind(this);
       
-      fetch('https://api.fixer.io/latest')
-        .then(data => data.json())
-        .then(data => {
-          const currencies = [];
-          currencies.push(data.base,...Object.entries(data.rates).filter(rates => rates[0]=='CAD' || rates[0]=='USD' ).map(rates =>rates[0]))
-          this.setState( { currencies,responseData : data.rates } );
-        })
-        .catch(err => console.log(err));
+      // fetch('https://api.fixer.io/latest')
+      //   .then(data => data.json())
+      //   .then(data => {
+      //  console.log('555555555')
+      //     const currencies = [];
+      //     currencies.push(data.base,...Object.entries(data.rates).filter(rates => rates[0]=='CAD' || rates[0]=='USD' ).map(rates =>rates[0]))
+      //     this.setState( { currencies,responseData : data.rates } );
+      //   })
+      //   .catch(err => console.log(err));
   }
 
-  onKeyPress (e) {
-    if(e.which >= 48 && e.which <= 57) {
-    } else {
-      e.preventDefault();
-    }   
-  };
 
   handleInputChange(e) {
     const typedValue = e.target ? e.target.value : e;    
@@ -42,19 +51,20 @@ export default class Main extends React.Component{
     const exCurrency = parseFloat(this.state.responseData[this.state.outputCurrency]);
 
     const value2 = inputCurrency == outputCurrency ? typedValue : Number.isNaN(inputValue) ? '' : ( Math.round( (inputValue * exCurrency) * 1000000 ) / 1000000 ).toString();
-    this.setState({value2 : value2, typedValue : typedValue});
+    const find1 = value2.split('.')
+    const value3 = find1.length > 1 ? find1[0]+'.'+find1[1].substr(0, 2): find1[0]
+    this.setState({value2 : value3, typedValue : typedValue});
   }
 
-  inputCurrencyMethod (e) {
-    this.setState({inputCurrency : e.target.value});
+  async callMethod (e) {
+    this.setState({inputCurrency : e});
     const { typedValue } = this.state;
+    const data1 = await CurrencyRatesService.getLatest(e);
+    this.setState({responseData : data1.rates},() => this.handleInputChange (typedValue));
+  }
 
-    fetch(`https://api.fixer.io/latest?base=${e.target.value}`)
-        .then(data => data.json())
-        .then(data => {
-          this.setState({responseData : data.rates},() => this.handleInputChange (typedValue));
-        })
-        .catch(err => console.log(err))
+  inputCurrencyMethod (e) {    
+    this.callMethod (e.target.value)
   }
 
   outputCurrencyMethod (e) {
@@ -74,7 +84,14 @@ export default class Main extends React.Component{
             <div className="slds-grid slds-grid_vertical-align-start">
               <div className="slds-form-element">
                 <div className="slds-form-element__control">
-                  <input className="slds-input" placeholder="0.00" value={value1} onKeyPress={this.onKeyPress.bind(this)} onChange={this.handleInputChange} />
+                  <CurrencyInput
+                    className="slds-input"
+                    placeholder="0.00"
+                    decimalSeparator="."
+                    precision={2}
+                    value={value1}
+                    onChange={this.handleInputChange}
+                  />              
                 </div>
               </div>
               <div className="slds-form-element slds-m-left--medium">
