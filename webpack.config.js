@@ -1,36 +1,30 @@
 var path = require('path');
- 
-var DIST_DIR = path.resolve(__dirname, "dist");
+var webpack = require('webpack');
+
 var SRC_DIR = path.resolve(__dirname, "src");
 
-var config = {
+module.exports = {
   devtool: 'source-map',
-  entry: ['whatwg-fetch',SRC_DIR + "/app/index.js"],
-  output: { 
-    path: DIST_DIR + "/app", 
-    filename: 'bundle.js',
-    publicPath: "/app/" 
+  entry : ['whatwg-fetch',SRC_DIR + "/app/index.js"],
+  output : {
+    path: __dirname,
+    publicPath: '/',
+    filename: 'bundle.js'
   },
-  module: {
-    loaders: [
-  	 {
+  module : {
+   loaders: [
+    {
         test: /\.js?/,
-        loader: 'babel-loader',
-        include: SRC_DIR,
-        query: {
-          presets: ['es2015', 'react']
-    	 }
-  	 },
-     {
-        test: /\.css$/,
-        loader: "style-loader!css-loader"
-      },
+        loaders: [ 'babel-loader' ],
+        exclude: /node_modules/,
+    },
+    {
+      test: /\.css$/,
+      loader: "style-loader!css-loader"
+    },
     {
       test: /\.scss$/,
       loader: 'style-loader!css-loader!sass-loader'
-    }
-	 ]
+    }] 
   }
-};
-
-module.exports = config;
+}

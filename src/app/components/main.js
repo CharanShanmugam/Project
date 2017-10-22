@@ -1,9 +1,9 @@
 import React from 'react';
 import CurrencyInput from 'react-nebo15-currency-input';
 import * as CurrencyRatesService from '../service.js';
+import _ from 'lodash';
 
-export default class Main extends React.Component{
-  
+export default class Main extends React.Component{ 
   componentWillMount() {
     this.fetchLatestRates();
   }
@@ -11,20 +11,26 @@ export default class Main extends React.Component{
   async fetchLatestRates() {
     const data = await CurrencyRatesService.getLatest();
     const currencies = [];
-    currencies.push(data.base,...Object.entries(data.rates).filter(rates => rates[0]=='CAD' || rates[0]=='USD' ).map(rates =>rates[0]))
+    currencies.push(data.base);
+    _.forEach(data.rates,function(value, key){
+        if(key == 'USD' || key == 'CAD' || key=='EUR'){
+          currencies.push(key)
+        }
+      });
+    
     this.setState( { currencies,responseData : data.rates } );
   };
 
   constructor(props) {
     super(props);
       this.state = {
-          currencies: [],
-          inputCurrency :'EUR',
-          outputCurrency :'USD',
-          responseData : [],
-          outputAmount : '',
-          inputAmount : '',
-          typedValue : ''
+        currencies: [],
+        inputCurrency :'EUR',
+        outputCurrency :'USD',
+        responseData : [],
+        outputAmount : '',
+        inputAmount : '',
+        typedValue : ''
       }
 
       this.inputCurrencyMethod = this.inputCurrencyMethod.bind(this);
@@ -40,7 +46,7 @@ export default class Main extends React.Component{
     const inputValue = parseFloat(typedValue.replace(',', '.'));
     const exCurrency = parseFloat(this.state.responseData[this.state.outputCurrency]);
 
-    const outputAmount = inputCurrency == outputCurrency ? typedValue : Number.isNaN(inputValue) ? '' : ( Math.round( (inputValue * exCurrency) * 1000000 ) / 1000000 ).toString();
+    const outputAmount = inputCurrency == outputCurrency ? typedValue :  (!typedValue || typeof(inputValue)!='number') ? '' : ( Math.round( (inputValue * exCurrency) * 1000000 ) / 1000000 ).toString();
     const tempValue = outputAmount.split('.')
     const preciseValue = tempValue.length > 1 ? tempValue[0]+'.'+tempValue[1].substr(0, 2): tempValue[0]
     this.setState({outputAmount : preciseValue, typedValue : typedValue});
@@ -50,6 +56,7 @@ export default class Main extends React.Component{
     this.setState({inputCurrency : e});
     const { typedValue } = this.state;
     const response = await CurrencyRatesService.getLatest(e);
+
     this.setState({responseData : response.rates},() => this.handleInputChange (typedValue));
   }
 
@@ -88,8 +95,8 @@ export default class Main extends React.Component{
                 <div className="slds-form-element__control">
                   <div className="slds-select_container">
                     <select className="slds-select" value={inputCurrency} onChange={this.inputCurrencyMethod}>
-                      {currencies.map(id=>
-                        <option key={id} value={id}>{id}</option>
+                      {currencies.map((id,key)=>
+                        <option key={key} value={id}>{id}</option>
                       )}
                     </select>
                   </div>

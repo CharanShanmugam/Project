@@ -1,9 +1,9 @@
 import 'whatwg-fetch';
+import { polyfill } from 'es6-promise'; polyfill();
 
 const FIXER_API_URL = 'https://api.fixer.io/';
 
-export async function getLatest(baseCurrency?: string):
-  Promise<IFixerServiceResponse> {
+export async function getLatest(baseCurrency?: string) {
   let fixerLatestRates = FIXER_API_URL + 'latest';
   
   if (baseCurrency) {
