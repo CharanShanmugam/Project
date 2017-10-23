@@ -10,15 +10,21 @@ export default class Main extends React.Component{
 
   async fetchLatestRates() {
     const data = await CurrencyRatesService.getLatest();
-    const currencies = [];
-    currencies.push(data.base);
-    _.forEach(data.rates,function(value, key){
-        if(key == 'USD' || key == 'CAD' || key=='EUR'){
-          currencies.push(key)
-        }
-      });
-    
-    this.setState( { currencies,responseData : data.rates } );
+
+    if(data.rates) {
+      const currencies = [];
+
+      currencies.push(data.base);
+      _.forEach(data.rates,function(value, key){
+          if(key == 'USD' || key == 'CAD' || key=='EUR'){
+            currencies.push(key)
+          }
+        });
+      this.setState({ currencies, responseData : data.rates });
+    } 
+    else {
+      this.setState({ error:true });
+    }
   };
 
   constructor(props) {
@@ -30,7 +36,8 @@ export default class Main extends React.Component{
         responseData : [],
         outputAmount : '',
         inputAmount : '',
-        typedValue : ''
+        typedValue : '',
+        error : false
       }
 
       this.inputCurrencyMethod = this.inputCurrencyMethod.bind(this);
@@ -71,10 +78,20 @@ export default class Main extends React.Component{
 
   render(){
       let inputAmount;
-      const { currencies, responseData, inputCurrency, outputCurrency, outputAmount } = this.state;
+      const { currencies, responseData, inputCurrency, outputCurrency, outputAmount, error } = this.state;
         
+      let errorMessage;
+        if(error) {
+          errorMessage = (
+            <div className="error-info">
+              API has encountered a problem. Please retry after sometime.
+            </div>
+          )
+        }
+          
       return(
         <div>
+            <div>{errorMessage}</div>
             <div className="slds-grid slds-grid_vertical-align-start slds-m-bottom--small slds-m-top--small">
               Type in amount and select currency:
             </div>
