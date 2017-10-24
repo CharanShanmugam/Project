@@ -11,9 +11,12 @@ export default class CurrencyConverter extends React.Component
     this.showMessage = this.showMessage.bind(this);
   }
 
-  showMessage () {
-    const {showDisclaimer} = this.state;
-    this.setState({showDisclaimer : !showDisclaimer});
+  showMessage (e) {
+    if (!e.keyCode || e.keyCode == 13){
+      const {showDisclaimer} = this.state;
+      this.setState({showDisclaimer : !showDisclaimer});
+    }
+    
   }
 
   render()
@@ -35,9 +38,9 @@ export default class CurrencyConverter extends React.Component
                 </div>
                 <Main />
                 <div>
-                  <a target="_blank" className="slds-float--right disclaimer_info" onClick={this.showMessage}>Disclaimer</a>
+                  <a tabIndex="0" className="slds-float--right disclaimer_info" onKeyDown={this.showMessage} onClick={this.showMessage}>Disclaimer</a>
                 </div>
-                <div>{disclaimerMessage}</div>
+                <div className="disclaimer_msg">{disclaimerMessage}</div>
             </div>);
   }
 }
