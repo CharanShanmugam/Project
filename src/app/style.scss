@@ -1,5 +1,5 @@
 h3{
-	color: #c23934;
+  color: #c23934;
 }
 
 .currency-container
@@ -13,23 +13,23 @@ h3{
 }
 
 .disclaimer{
-	&_info{
-		cursor: pointer;
-	}
-	&_msg{
-		width:275px;
-	}
+  &_info{
+    cursor: pointer;
+  }
+  &_msg{
+    width:275px;
+  }
 }
 
 .error-info{
-	color: #f5160e;
-	width:275px;
+  color: #f5160e;
+  width:275px;
 }
 
 .loading {
-	text-align: center;
+  text-align: center;
 
-	&_img{
-		max-width: 45%;
-	}
+  &_img{
+    max-width: 45%;
+  }
 }
