@@ -2,6 +2,7 @@ import React from 'react';
 import CurrencyInput from 'react-nebo15-currency-input';
 import * as CurrencyRatesService from '../service.js';
 import _ from 'lodash';
+import loader from '../img/spinner.gif';
 
 export default class Main extends React.Component{ 
   componentWillMount() {
@@ -33,7 +34,7 @@ export default class Main extends React.Component{
         currencies: [],
         inputCurrency :'EUR',
         outputCurrency :'USD',
-        responseData : [],
+        responseData : {},
         outputAmount : '',
         inputAmount : '',
         typedValue : '',
@@ -52,10 +53,11 @@ export default class Main extends React.Component{
 
     const inputValue = parseFloat(typedValue.replace(',', '.'));
     const exCurrency = parseFloat(this.state.responseData[this.state.outputCurrency]);
-
+    
     const outputAmount = inputCurrency == outputCurrency ? typedValue :  (!typedValue || typeof(inputValue)!='number') ? '' : ( Math.round( (inputValue * exCurrency) * 1000000 ) / 1000000 ).toString();
     const tempValue = outputAmount.split('.')
     const preciseValue = tempValue.length > 1 ? tempValue[0]+'.'+tempValue[1].substr(0, 2): tempValue[0]
+    
     this.setState({outputAmount : preciseValue, typedValue : typedValue});
   }
 
@@ -77,24 +79,33 @@ export default class Main extends React.Component{
   }
 
   render(){
-      let inputAmount;
+      let inputAmount, errorMessage, displaymessage, loadingIcon;
       const { currencies, responseData, inputCurrency, outputCurrency, outputAmount, error } = this.state;
         
-      let errorMessage;
-        if(error) {
-          errorMessage = (
-            <div className="error-info">
-              API has encountered a problem. Please retry after sometime.
-            </div>
-          )
-        }
-          
-      return(
-        <div>
+      if(error) {
+        errorMessage = (
+          <div className="error-info">
+            API has encountered a problem. Please retry after sometime.
+          </div>
+        )
+      }
+      
+      if(Object.keys(responseData).length == 0){
+        loadingIcon = (
+          <div className="loading">
+            <img src={loader} alt="Loading" title="Loading" className="loading_img"/>
+          </div>
+        )
+      }
+
+      if(Object.keys(responseData).length != 0) {
+        displaymessage = (
+          <div>
             <div>{errorMessage}</div>
             <div className="slds-grid slds-grid_vertical-align-start slds-m-bottom--small slds-m-top--small">
               Type in amount and select currency:
             </div>
+
             <div className="slds-grid slds-grid_vertical-align-start">
               <div className="slds-form-element">
                 <div className="slds-form-element__control">
@@ -124,6 +135,7 @@ export default class Main extends React.Component{
             <div className="slds-grid slds-grid_vertical-align-start slds-m-bottom--small slds-m-top--small">
               Converted amount:
             </div>
+
             <div className="slds-grid slds-grid_vertical-align-start">
                 <div className="slds-form-element">
                   <div className="slds-form-element__control">
@@ -142,7 +154,15 @@ export default class Main extends React.Component{
                   </div>
                 </div>
             </div>
+          </div>
+        )
+      }
+          
+      return(
+        <div>
+          {loadingIcon}
+          {displaymessage}  
         </div>
       )
     }
-  }
+}

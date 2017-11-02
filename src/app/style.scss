@@ -5,8 +5,8 @@ h3{
 .currency-container
 {
   border:1px solid #706e6b;
-  padding:20px;
-  margin: 10px;    
+  padding: 2%;
+  margin: 1%;    
   float: left;
   background-color: #fafaf9;
   border-radius: 5px;
@@ -24,4 +24,12 @@ h3{
 .error-info{
 	color: #f5160e;
 	width:275px;
+}
+
+.loading {
+	text-align: center;
+
+	&_img{
+		max-width: 45%;
+	}
 }
