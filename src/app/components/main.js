@@ -38,12 +38,14 @@ export default class Main extends React.Component{
         outputAmount : '',
         inputAmount : '',
         typedValue : '',
-        error : false
+        error : false,
+        showDisclaimer : false
       }
-
+    
       this.inputCurrencyMethod = this.inputCurrencyMethod.bind(this);
       this.outputCurrencyMethod = this.outputCurrencyMethod.bind(this);
       this.handleInputChange = this.handleInputChange.bind(this);
+      this.showMessage = this.showMessage.bind(this);
   };
 
 
@@ -78,9 +80,16 @@ export default class Main extends React.Component{
     this.setState({outputCurrency : e.target.value,typedValue : typedValue },() => this.handleInputChange (typedValue));
   }
 
+  showMessage (e) {
+    if (!e.keyCode || e.keyCode == 13){
+      const {showDisclaimer} = this.state;
+      this.setState({showDisclaimer : !showDisclaimer});
+    } 
+  }
+
   render(){
-      let inputAmount, errorMessage, displaymessage, loadingIcon;
-      const { currencies, responseData, inputCurrency, outputCurrency, outputAmount, error } = this.state;
+      let inputAmount, errorMessage, displayComponent, loadingIcon, disclaimerMessage;
+      const { currencies, responseData, inputCurrency, outputCurrency, outputAmount, error,showDisclaimer } = this.state;
         
       if(error) {
         errorMessage = (
@@ -93,13 +102,21 @@ export default class Main extends React.Component{
       if(Object.keys(responseData).length == 0){
         loadingIcon = (
           <div className="loading">
-            <img src={loader} alt="Loading" title="Loading" className="loading_img"/>
+            <img src={loader} alt="Loading" title="Loading"/>
           </div>
         )
       }
 
+      if (this.state.showDisclaimer) {
+        disclaimerMessage = (
+          <div className="slds-m-top--large">
+            The currency rates are based on data from fixer api.
+          </div>
+        )
+      }
+      
       if(Object.keys(responseData).length != 0) {
-        displaymessage = (
+        displayComponent = (
           <div>
             <div>{errorMessage}</div>
             <div className="slds-grid slds-grid_vertical-align-start slds-m-bottom--small slds-m-top--small">
@@ -154,6 +171,11 @@ export default class Main extends React.Component{
                   </div>
                 </div>
             </div>
+
+            <div>
+              <a tabIndex="0" className="slds-float--right disclaimer_info" onKeyDown={this.showMessage} onClick={this.showMessage}>Disclaimer</a>
+            </div>
+            <div className="disclaimer_msg">{disclaimerMessage}</div>
           </div>
         )
       }
@@ -161,7 +183,7 @@ export default class Main extends React.Component{
       return(
         <div>
           {loadingIcon}
-          {displaymessage}  
+          {displayComponent}  
         </div>
       )
     }
