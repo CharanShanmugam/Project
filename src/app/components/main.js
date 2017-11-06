@@ -172,7 +172,7 @@ export default class Main extends React.Component {
           </div>
 
           <div>
-            <a tabIndex="0" className="slds-float--right disclaimer_info" onKeyDown={this.showMessage} onClick={this.showMessage}>Disclaimer</a>
+            <a tabIndex="0" className="slds-float--right disclaimer_info slds-m-bottom--small" onKeyDown={this.showMessage} onClick={this.showMessage}>Disclaimer</a>
           </div>
           <div className="disclaimer_msg">{disclaimerMessage}</div>
         </div>

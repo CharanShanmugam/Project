@@ -1,24 +1,13 @@
-h3{
-  color: #c23934;
-}
-
 .currency-container
 {
-  border:1px solid #706e6b;
-  padding: 2%;
-  margin: 1%;    
+  border:1px solid #706e6b;  
   float: left;
   background-color: #fafaf9;
   border-radius: 5px;
 }
 
-.disclaimer{
-  &_info{
+.disclaimer_info{
     cursor: pointer;
-  }
-  &_msg{
-    width:275px;
-  }
 }
 
 .error-info{
@@ -26,6 +15,18 @@ h3{
   width:275px;
 }
 
+.slds-p-around_x-small{
+  padding: 0.5rem; 
+}
+
 .loading {
   text-align: center;
+}
+
+input:focus::-webkit-input-placeholder{
+  color:transparent;
+}
+
+input:focus::-moz-placeholder { 
+  color:transparent;
 }
