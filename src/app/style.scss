@@ -27,6 +27,17 @@ input:focus::-moz-placeholder {
   color:transparent;
 }
 
+.currency {
+  &_input {
+    width:300%;
+  }
+  &_dropdown {
+    width:120%;
+    width:-webkit-fill-available;
+    width:-moz-available;
+  }
+}
+
 @media (min-width: 64em){
   .currency-container {
     padding:5%;

@@ -125,7 +125,7 @@ export default class Main extends React.Component {
           </div>
 
           <div className="slds-grid slds-grid_vertical-align-start">
-            <div className="slds-form-element">
+            <div className="slds-form-element currency_input">
               <div className="slds-form-element__control">
                 <CurrencyInput
                   className="slds-input"
@@ -137,7 +137,7 @@ export default class Main extends React.Component {
                 />
               </div>
             </div>
-            <div className="slds-form-element slds-m-left--medium">
+            <div className="slds-form-element slds-m-left--medium currency_dropdown">
               <div className="slds-form-element__control">
                 <div className="slds-select_container">
                   <select className="slds-select" value={inputCurrency} onChange={this.inputCurrencyMethod}>
@@ -155,12 +155,12 @@ export default class Main extends React.Component {
           </div>
 
           <div className="slds-grid slds-grid_vertical-align-start">
-            <div className="slds-form-element">
+            <div className="slds-form-element currency_input">
               <div className="slds-form-element__control">
                 <input className="slds-input" placeholder="0.00" type="text" value={outputAmount} disabled />
               </div>
             </div>
-            <div className="slds-form-element slds-m-left--medium">
+            <div className="slds-form-element slds-m-left--medium currency_dropdown">
               <div className="slds-form-element__control">
                 <div className="slds-select_container">
                   <select className="slds-select" value={outputCurrency} onChange={this.outputCurrencyMethod}>
@@ -171,8 +171,8 @@ export default class Main extends React.Component {
             </div>
           </div>
 
-          <div>
-            <a tabIndex="0" className="slds-float--right disclaimer_info slds-m-bottom--small" onKeyDown={this.showMessage} onClick={this.showMessage}>Disclaimer</a>
+          <div className="slds-grid slds-grid_vertical-align-start slds-float--right">
+            <a tabIndex="0" className="slds-m-bottom--small slds-m-top--small disclaimer_info" onKeyDown={this.showMessage} onClick={this.showMessage}>Disclaimer</a>
           </div>
           <div>{disclaimerMessage}</div>
         </div>
