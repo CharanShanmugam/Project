@@ -28,3 +28,6 @@ Reactjs, npm, webpack, SASS, Lightning Design System.
 	npm start
 
 5. Launch application in "http://localhost:8080"
+Note: If facing issue with localhost, try "http://127.0.0.1:8080". Please change IPv6 settings to enable localhost.
+
+6. To lint application - npm run lint
