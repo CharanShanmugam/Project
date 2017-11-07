@@ -6,7 +6,7 @@ import './style.scss';
 /* global document:true; */
 const App = () => {
   return (
-    <div className="slds-grid slds-wrap">
+    <div className="slds-grid slds-wrap container">
       <div className="slds-col slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-3 slds-p-around_x-small">
         <div className="slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1 currency-container">
           <CurrencyConverter />

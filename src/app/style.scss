@@ -7,16 +7,12 @@
 }
 
 .disclaimer_info{
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .error-info{
   color: #f5160e;
   width:275px;
-}
-
-.slds-p-around_x-small{
-  padding: 0.5rem; 
 }
 
 .loading {
@@ -29,4 +25,16 @@ input:focus::-webkit-input-placeholder{
 
 input:focus::-moz-placeholder { 
   color:transparent;
+}
+
+@media (min-width: 64em){
+  .currency-container {
+    padding:5%;
+  }
+  .container {
+    margin-right: 20%;
+  }
+  .slds-m-right--large {
+    margin-right : 1rem;
+  }
 }
